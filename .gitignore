@@ -1,0 +1,14 @@
+﻿.venv/
+.venv-1/
+__pycache__/
+*.pyc
+
+models/*.joblib
+models/*.sqlite
+models/*.duckdb
+models/*.tsv
+
+output/*
+!output/.gitkeep
+
+dataset/
