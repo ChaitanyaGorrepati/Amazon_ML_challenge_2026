@@ -226,7 +226,7 @@ def main() -> None:
 	parser.add_argument("--threshold", type=float, default=0.3)
 	parser.add_argument("--chunked", action="store_true")
 	parser.add_argument("--chunk-size", type=int, default=50_000)
-	parser.add_argument("--reference-db", default="models/test_reference.sqlite")
+	parser.add_argument("--reference-db", default="models/test_reference.duckdb")
 	parser.add_argument("--engine", choices=["sqlite", "duckdb"], default="sqlite")
 	args = parser.parse_args()
 	if args.chunked:

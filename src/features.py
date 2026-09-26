@@ -131,11 +131,15 @@ def build_pair_features(
 ) -> pd.DataFrame:
 	if candidate_pairs.empty:
 		return pd.DataFrame(columns=["source1_entity_id", "candidate_entity_id", *FEATURE_COLUMNS])
-	left = add_normalized_columns(source1).set_index("entity_id", drop=False)
-	right = add_normalized_columns(reference).set_index("entity_id", drop=False)
+	left = add_normalized_columns(source1)
+	right = add_normalized_columns(reference)
+	left_map = {str(row.entity_id): row for row in left.itertuples(index=False)}
+	right_map = {str(row.entity_id): row for row in right.itertuples(index=False)}
 	rows = []
 	for pair in candidate_pairs.itertuples(index=False):
-		if pair.source1_entity_id not in left.index or pair.candidate_entity_id not in right.index:
+		left_row = left_map.get(str(pair.source1_entity_id))
+		right_row = right_map.get(str(pair.candidate_entity_id))
+		if left_row is None or right_row is None:
 			continue
-		rows.append(_pair_features(left.loc[pair.source1_entity_id], right.loc[pair.candidate_entity_id]))
+		rows.append(_pair_features(left_row, right_row))
 	return pd.DataFrame(rows, columns=["source1_entity_id", "candidate_entity_id", *FEATURE_COLUMNS])

@@ -2,13 +2,17 @@
 .venv-1/
 __pycache__/
 *.pyc
+.DS_Store
 
-models/*.joblib
-models/*.sqlite
-models/*.duckdb
-models/*.tsv
+dataset/
+
+experiments/*
+!experiments/.gitkeep
+
+models/*
+!models/.gitkeep
 
 output/*
 !output/.gitkeep
 
-dataset/
+notepad .gitignore

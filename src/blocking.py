@@ -279,8 +279,10 @@ class DiskReferenceBlocker:
 		if row.address_normalized:
 			address = self._lookup("address_exact", (country, str(row.address_normalized)), self.config.max_candidates_per_entity)
 			if self.config.use_token_indexes:
+				generic_address_tokens = {"st", "rd", "ave", "blvd", "dr", "ln", "unit", "apt", "fl", "floor", "ste", "suite", "near", "opp", "opposite", "road", "street", "avenue", "lane", "colony", "dist", "district", "city", "state", "india", "us", "france", "de", "du", "la", "le"}
 				for token in set(str(row.address_normalized).split()):
-					address.update(self._lookup("address_tokens", (country, token), self.config.address_token_limit))
+					if len(token) > 2 and token not in generic_address_tokens:
+						address.update(self._lookup("address_tokens", (country, token), self.config.address_token_limit))
 			passes.append(address)
 		if row.house_number:
 			passes.append(self._lookup("house_numbers", (country, str(row.house_number)), self.config.numeric_limit))
